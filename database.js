@@ -43,11 +43,34 @@ module.exports = function (host, port) {
                 }
             });
         }
+
+        function getRaces(callback) {
+            openConnection(function (err, db) {
+                if (err !== null) {
+                    callback(null);
+                }
+                else {
+                    db.collection('races', function (err, races) {
+                        var cursor = races.find({}, {'name': true});
+                        cursor.toArray(function (err, raceList) {
+                            if (err === null) {
+                                callback(raceList);
+                            }
+                            else {
+                                console.log(err);
+                                callback([]);
+                            }
+                        });
+                    });
+                }
+            });
+        }
         
         return {
             getRace: function (name, callback) {
                 getRaceByName(name, callback);
-            }
+            },
+            getRaces: getRaces
         };
     }());
 };

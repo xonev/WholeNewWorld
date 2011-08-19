@@ -31,9 +31,12 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res) {
-  res.render('index', {
-    title: 'Race Index'
-  });
+    database.getRaces(function (raceList) {
+        res.render('index', {
+            title: 'The Race Index',
+            races: raceList
+        });
+    });
 });
 
 app.get('/race/:name', function(req, res) {
