@@ -4,22 +4,49 @@ module.exports = function (host, port) {
             'test',
             new mongo.Server(host, port, { auto_reconnect: true }, {})
         );
-        db.open(function () {});
-
-        function getRaceByName(name) {
-            db.collection('races', function (err, races) {
-                races.find({'name': name}, function (err, cursor) {
-                    if (cursor.hasNext()) {
-                        return cursor.next();
+            
+        function openConnection(callback) {
+            if (db.state === "notConnected") {
+                db.open(function (err, db) {
+                    if (err === null) {
+                        callback(null, db);
                     }
-                    return null;
+                    else {
+                        console.log(err);
+                        callback(err, null);
+                    }
                 });
+            }
+            else {
+                callback(null, db);
+            }
+        }
+
+        function getRaceByName(name, callback) {
+            openConnection(function (err, db) {
+                if (err !== null) {
+                    callback(null);
+                }
+                else {
+                    db.collection('races', function (err, races) {
+                        var cursor = races.find({'name': name});
+                        cursor.nextObject(function (err, obj) {
+                            if (err === null) {
+                                callback(obj);
+                            }
+                            else {
+                                console.log(err);
+                                callback(null);
+                            }
+                        });
+                    });
+                }
             });
         }
         
         return {
-            getRace: function (name) {
-                getRaceByName(name);
+            getRace: function (name, callback) {
+                getRaceByName(name, callback);
             }
         };
     }());

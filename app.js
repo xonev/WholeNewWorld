@@ -37,7 +37,9 @@ app.get('/', function(req, res) {
 });
 
 app.get('/race/:name', function(req, res) {
-    res.send(JSON.stringify(database.getRace(req.params.name)));
+    database.getRace(req.params.name, function (raceInfo) {
+        res.send(JSON.stringify(raceInfo));
+    });
 });
 
 app.listen(3000);
