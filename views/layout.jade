@@ -2,5 +2,12 @@
 html
   head
     title= title
+    script(type='text/javascript', src='/javascripts/jquery-1.6.2.min.js')
+    link(rel='stylesheet', href='/stylesheets/reset-min.css')
+    link(rel='stylesheet', href='/stylesheets/base-min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    - each stylesheet in additionalStylesheets
+      link(rel='stylesheet', href='/stylesheets/#{stylesheet}')
+    - each script in additionalJavascripts
+      script(type='text/javascript', src='/javascripts/#{script}')
   body!= body

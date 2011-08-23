@@ -34,13 +34,21 @@ app.get('/', function(req, res) {
     database.getRaces(function (raceList) {
         res.render('index', {
             title: 'The Race Index',
-            races: raceList
+            races: raceList,
+            additionalStylesheets: [
+                'index.css',
+            ],
+            additionalJavascripts: [
+                'jade.js',
+                'race_index.js'
+            ],
         });
     });
 });
 
 app.get('/race/:name', function(req, res) {
     database.getRace(req.params.name, function (raceInfo) {
+        res.contentType('application/json');
         res.send(JSON.stringify(raceInfo));
     });
 });

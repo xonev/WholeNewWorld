@@ -1,0 +1,17 @@
+.races li
+{
+    list-style: none;
+}
+
+.clear-both
+{
+    clear: both;
+}
+
+#portrait-wrapper {
+    float: right;
+}
+
+#navigation {
+    float: left;
+}

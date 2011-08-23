@@ -1,5 +1,19 @@
 h1= title
 p Welcome to #{title}
-ul
-  - each race in races
-    li: a(href='/race/#{race.name}') #{race.name}
+
+- if (races.length > 0)
+  - var currentRace = races[0]
+  div#navigation
+    ul.races
+       - each race in races
+         li
+           a(href='/race/#{race.name}')
+             img(src='#{race.thumbnail}')
+  div#portrait-wrapper
+    img#portrait(src='/images/blank-portrait.png')
+
+  div.clear-both
+    p#race-text
+
+- else
+  p No races were found. :(

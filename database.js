@@ -51,7 +51,9 @@ module.exports = function (host, port) {
                 }
                 else {
                     db.collection('races', function (err, races) {
-                        var cursor = races.find({}, {'name': true});
+                        var cursor = races.find(
+                            {},
+                            {'name': true, 'thumbnail': true});
                         cursor.toArray(function (err, raceList) {
                             if (err === null) {
                                 callback(raceList);
